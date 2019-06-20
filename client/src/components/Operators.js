@@ -10,6 +10,9 @@ import {
   Avatar,
   Typography
 } from "@material-ui/core";
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import { withStyles } from "@material-ui/core/styles";
 import { fetchOperators } from "../actions/operatorsActions";
@@ -19,6 +22,20 @@ const styles = theme => ({
     margin: "auto",
     marginTop: theme.spacing.unit * 4,
     width: "fit-content"
+  },
+  card: {
+    width: 200
+  },
+  bullet: {
+    display: 'inline-block',
+    margin: '0 2px',
+    transform: 'scale(0.8)',
+  },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
   },
   root: {
     margin: theme.spacing.unit * 3
@@ -78,11 +95,25 @@ class Operators extends Component {
       return( 
         <div className={classes.root}>
           <h3>{details.items.length} Objet{} traités pour un score de {details.score} points</h3>
-          { details.items.map((object) => {
-            return (
-              <h4 key={object.id}>Produit: {object.name} / Poste: {object.poste}</h4>
-            )
-          })}
+          <Grid container spacing={3}>
+            { details.items.map((object) => {
+              return (
+                <Grid item xs={3}>
+                  <Card className={classes.card}>
+                    <CardContent>
+                      <Typography variant="h5" component="h2">
+                        {object.name}
+                      </Typography>
+                      <Typography className={classes.pos} color="textSecondary">
+                        {object.poste}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              )
+            })}
+
+          </Grid>
         </div>
       )
     }{

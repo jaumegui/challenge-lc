@@ -10,12 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_20_093114) do
+ActiveRecord::Schema.define(version: 2019_06_20_102446) do
 
   create_table "items", force: :cascade do |t|
     t.integer "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "picked", default: false
+    t.boolean "checked", default: false
+    t.boolean "packed", default: false
     t.index ["product_id"], name: "index_items_on_product_id"
   end
 
