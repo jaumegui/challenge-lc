@@ -6,7 +6,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import { Typography } from "@material-ui/core";
+import { Typography, CircularProgress } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { deepPurple } from '@material-ui/core/colors';
 
@@ -37,7 +37,7 @@ const styles = {
   },
   link: {
     textDecoration: 'none'
-  },
+  }
 }
 
 
@@ -53,6 +53,14 @@ class Dashboard extends Component {
   
   componentDidMount() {
     this.givedetails()
+  }
+
+  specialForJack() {
+    if(this.state.details.name == "Jack Jefferson") {
+      return (
+        <Typography variant="h5" gutterBottom>T'es mauvais Jack!</Typography>
+      )
+    }
   }
   
   givedetails(id) {
@@ -92,6 +100,7 @@ class Dashboard extends Component {
           </div>
           <h3>
             {details.items.length} Objet{ details.items.length === 0 ? "" : "s" } traité{ details.items.length === 0 ? "" : "s" } pour un score de {details.score} point{ details.items.length === 0 ? "" : "s" }</h3>
+          { this.specialForJack() }
           <Grid container spacing={16} style={styles.grid}>
             { details.items.map((object) => {
               return (
@@ -113,7 +122,11 @@ class Dashboard extends Component {
           </Grid>
         </div>
       )
-    } return <h1 className={classes.root}>ne sert à rien</h1>
+    } return (
+        <div className={classes.progress}>
+          <CircularProgress size={128}/>
+        </div>
+      );
   }
 
 

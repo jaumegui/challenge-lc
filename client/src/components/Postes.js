@@ -57,7 +57,7 @@ class Postes extends Component {
     super(props);
 
     this.state = {
-      loading: true,
+      loading: false,
       postes: [],
       postesDetails: []
     };
@@ -114,7 +114,7 @@ class Postes extends Component {
                     </TableBody>
                   </Table>
             </Paper>
-            <div style={{display: "flex", justifyContent: 'center'}}>
+            <div style={{display: "flex", justifyContent: 'center', marginTop: '30px'}}>
               <Chart 
                 postesCount={this.state.postesDetails.length} 
                 data={data(this.state.postesDetails.length)} 
@@ -133,7 +133,7 @@ class Postes extends Component {
     if (loading) {
       return (
         <div className={classes.progress}>
-          <CircularProgress size={32} />
+          <CircularProgress size={128} />
         </div>
       );
     }

@@ -60,20 +60,20 @@ class Operators extends Component {
     super(props);
 
     this.state = {
-      loading: false,
+      loading: true,
       details: [],
       operators: []
     }
   }
 
   componentDidMount() {
+    this.setState({ loading: true })
     fetch('http://localhost:4000/api/operators')
       .then(response => response.json())
       .then(json => this.setState({ operators: json }))
       .catch(error => console.log(error))
     this.setState({ loading: false });
   }
-
 
   render() {
     const { classes } = this.props;
@@ -82,7 +82,7 @@ class Operators extends Component {
     if (loading) {
       return (
         <div className={classes.progress}>
-          <CircularProgress size={32} />
+          <CircularProgress size={128} />
         </div>
       );
     }
