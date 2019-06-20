@@ -22,5 +22,11 @@ module Api
       end
       render json: postes
     end
+
+    def status
+      sleep 1
+      poste = Item.find_by_id(params[:id])
+      render json: poste
+    end
   end
 end
