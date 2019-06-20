@@ -25,8 +25,10 @@ module Api
 
     def status
       sleep 1
-      poste = Item.find_by_id(params[:id])
-      render json: poste
+      poste = OperatorsPoste.find_by(item_id: Item.find_by(params[:item]).id)
+      item = Item.find_by_id(params[:id])
+      response = { op: poste, item: item }
+      render json: response
     end
   end
 end

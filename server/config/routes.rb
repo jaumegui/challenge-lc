@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     resources :operators, only: %i(index show)
     resources :postes, only: %i(index show) do 
         collection do 
-          get 'status/:id', to: 'postes#status'
+          get '/:id/status/:item', to: 'postes#status'
       end
     end
   end

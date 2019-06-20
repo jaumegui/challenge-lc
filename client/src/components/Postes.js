@@ -59,10 +59,18 @@ class Postes extends Component {
     this.state = {
       loading: false,
       postes: [],
-      postesDetails: []
+      postesDetails: [],
+      status: []
     };
 
     this.fetchPostes()
+  }
+
+  fetchStatus(id) {
+    fetch(`http://localhost:4000/api/postes/status/${id}`)
+      .then(response => response.json())
+      .then(json => this.setState({ status: json }))
+      .catch(error => console.log(error))
   }
 
   fetchPostes() {
@@ -72,6 +80,7 @@ class Postes extends Component {
         postes: json,
         loading: false
       }))
+      .catch(error => console.log(error))
   }
 
   fetchPostesDetails(id) {
@@ -102,12 +111,12 @@ class Postes extends Component {
                     </TableHead>
                     <TableBody>
                       {this.state.postesDetails.map(item => (
-                        <TableRow key={item.id}>
+                        <TableRow key={item.id} >
                           <TableCell component="th" scope="row">
                             {item.item}
                           </TableCell>
                           <TableCell align="right">{item.operator}</TableCell>
-                          <TableCell align="right">{item.status.checked.value}</TableCell>
+                          <TableCell align="right"></TableCell>
                           <TableCell align="right">{item.date}</TableCell>
                         </TableRow>
                       ))}

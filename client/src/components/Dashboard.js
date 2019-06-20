@@ -98,8 +98,7 @@ class Dashboard extends Component {
             </div>
             <Avatar className={classes.purpleAvatar} size={"300"}>{details.score}</Avatar>
           </div>
-          <h3>
-            {details.items.length} Objet{ details.items.length === 0 ? "" : "s" } traité{ details.items.length === 0 ? "" : "s" } pour un score de {details.score} point{ details.items.length === 0 ? "" : "s" }</h3>
+          <Typography variant="h5" gutterBottom>{details.items.length} Objet{ details.items.length === 0 ? "" : "s" } traité{ details.items.length === 0 ? "" : "s" } pour un score de {details.score} point{ details.items.length === 0 ? "" : "s" }</Typography>
           { this.specialForJack() }
           <Grid container spacing={16} style={styles.grid}>
             { details.items.map((object) => {
