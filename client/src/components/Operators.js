@@ -84,6 +84,8 @@ class Operators extends Component {
         </div>
       );
     }
+
+    console.log(this.state)
     return (
       <div className={classes.root}>
         <List>
