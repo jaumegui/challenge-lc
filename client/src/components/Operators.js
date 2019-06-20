@@ -1,18 +1,15 @@
 import React, { Component } from "react";
 import { compose } from "redux";
 import { connect } from "react-redux";
+import { Link } from 'react-router-dom'
 import {
   CircularProgress,
   List,
   ListItem,
   ListItemText,
   ListItemAvatar,
-  Avatar,
-  Typography
+  Avatar
 } from "@material-ui/core";
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import { withStyles } from "@material-ui/core/styles";
 import { fetchOperators } from "../actions/operatorsActions";
@@ -22,6 +19,9 @@ const styles = theme => ({
     margin: "auto",
     marginTop: theme.spacing.unit * 4,
     width: "fit-content"
+  },
+  link: {
+    textDecoration: 'none'
   },
   card: {
     width: 200
@@ -74,52 +74,6 @@ class Operators extends Component {
     this.setState({ loading: false });
   }
 
-  givedetails(id) {
-    this.setState({
-      loading: true
-    })
-    fetch(`http://localhost:4000/api/operators/${id}`)
-      .then(response => (response.json()))
-      .then(json => this.setState({
-        details: json,
-        loading: false
-      }))
-      .catch(error => console.log(error))  
-    }
-
-  details() {
-    const { classes } = this.props;
-    const { details } = this.state;
-
-    if(details.length !== 0) {
-      return( 
-        <div className={classes.root}>
-          <h3>{details.items.length} Objet{} traités pour un score de {details.score} points</h3>
-          <Grid container spacing={16}>
-            { details.items.map((object) => {
-              return (
-                <Grid item xs={3}>
-                  <Card className={classes.card}>
-                    <CardContent>
-                      <Typography variant="h5" component="h2">
-                        {object.name}
-                      </Typography>
-                      <Typography className={classes.pos} color="textSecondary">
-                        {object.poste}
-                      </Typography>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              )
-            })}
-
-          </Grid>
-        </div>
-      )
-    }{
-    return <h1 className={classes.root}>ne sert à rien</h1>
-  }
-  }
 
   render() {
     const { classes } = this.props;
@@ -137,22 +91,16 @@ class Operators extends Component {
       <div className={classes.root}>
         <List>
           {operators.map(operator => (
-            <ListItem key={operator.id} onClick={() => this.givedetails(operator.id)} button>
-              <ListItemAvatar>
-                <Avatar className={classes.purpleAvatar}>{operator.first_name[0]}</Avatar>
-              </ListItemAvatar>
-              <ListItemText inset primary={operator.first_name + " " + operator.last_name} />
-            </ListItem>
+            <Link key={operator.id} to={`dashboard/${operator.id}`} className={classes.link}>
+              <ListItem key={operator.id} button>
+                <ListItemAvatar>
+                  <Avatar className={classes.purpleAvatar}>{operator.first_name[0]}</Avatar>
+                </ListItemAvatar>
+                <ListItemText inset primary={operator.first_name + " " + operator.last_name} />
+              </ListItem>
+            </Link>
           ))}
         </List>
-        <div className={classes.todo}>{this.details()}</div>
-        <Typography className={classes.todo}>
-          <em>
-            TODO :<br />
-            Lien vers dashboard personnel avec suivi des points et du nombre de
-            pièces traitées suivant le jour
-          </em>
-        </Typography>
       </div>
     );
   }

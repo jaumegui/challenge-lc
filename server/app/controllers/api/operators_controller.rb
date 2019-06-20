@@ -10,7 +10,8 @@ module Api
       sleep 1
       operator_postes = Operator.find(params[:id]).operators_postes
       score = operator_postes.length
-      response = { score: score, items: []}
+      op_name = Operator.find(params[:id]).name
+      response = { name: op_name, score: score, items: []}
       items = []
       operator_postes.each do |object|
         items.push({
