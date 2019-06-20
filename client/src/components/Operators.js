@@ -95,7 +95,7 @@ class Operators extends Component {
       return( 
         <div className={classes.root}>
           <h3>{details.items.length} Objet{} traités pour un score de {details.score} points</h3>
-          <Grid container spacing={3}>
+          <Grid container spacing={16}>
             { details.items.map((object) => {
               return (
                 <Grid item xs={3}>

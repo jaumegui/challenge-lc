@@ -23,16 +23,17 @@ Product.create!([
 
 Item.create!([
   { product_id: 1 },
+  { product_id: 2 },
+  { product_id: 3 },
   { product_id: 1 },
-  { product_id: 2 }
+  { product_id: 4 },
 ])
 
 OperatorsPoste.create!([
   { operator_id: 1, poste_id: 1, item_id: 1},
   { operator_id: 1, poste_id: 2, item_id: 1},
   { operator_id: 1, poste_id: 3, item_id: 1},
-  { operator_id: 2, poste_id: 3, item_id: 4},
-  { operator_id: 2, poste_id: 1, item_id: 3},
-  { operator_id: 3, poste_id: 1, item_id: 2},
-  { operator_id: 3, poste_id: 2, item_id: 5}
+  { operator_id: 2, poste_id: 2, item_id: 2},
+  { operator_id: 2, poste_id: 2, item_id: 3},
+  { operator_id: 2, poste_id: 3, item_id: 2}
 ])

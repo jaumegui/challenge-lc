@@ -1,17 +1,25 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { compose } from "redux";
 import { connect } from "react-redux";
+import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Chart from './Chart'
 import {
+  Fade,
   CircularProgress,
   List,
   ListItem,
   ListItemText,
-  Typography
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import _ from "lodash";
 import { fetchPostes } from "../actions/postesActions";
+
 
 const styles = theme => ({
   progress: {
@@ -30,40 +38,92 @@ const styles = theme => ({
   }
 });
 
+
+let data = (posts) => {
+  return (
+    // Faker les stats de vente------------------------------------------------------
+    [{name: 'Lundi', uv: Math.floor(Math.random() * 6) + 1, pv: 2400, amt: 2400}, 
+                {name: 'Mardi', uv: Math.floor(Math.random() * 6) + 1, pv: 2300, amt: 2300},
+                {name: 'Mercredi', uv: Math.floor(Math.random() * 6) + 1, pv: 2300, amt: 2300},
+                {name: 'Jeudi', uv: Math.floor(Math.random() * 6) + 1, pv: 2300, amt: 2300},
+                {name: 'Vendredi', uv: Math.floor(Math.random() * 6) + 1, pv: 2300, amt: 2300},
+                {name: 'Samedi', uv: posts, pv: 2300, amt: 2300}
+                ]
+    // Faker les stats de vente------------------------------------------------------
+  )
+};
+
 class Postes extends Component {
-  static propTypes = {
-    fetchPostes: PropTypes.func,
-    postes: PropTypes.object
-  };
+  constructor(props) {
+    super(props);
 
-  _isMounted = false;
+    this.state = {
+      loading: true,
+      postes: [],
+      postesDetails: []
+    };
 
-  state = {
-    loading: false
-  };
-
-  componentWillMount() {
-    this._isMounted = true;
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
-  componentDidMount() {
-    this.fetchPostes();
+    this.fetchPostes()
   }
 
   fetchPostes() {
-    if (this.state.loading) return null;
-    this.setState({ loading: true });
-    this.props.fetchPostes().then(() => {
-      this._isMounted && this.setState({ loading: false });
-    });
+    fetch(`http://localhost:4000/api/postes`)
+      .then(response => response.json())
+      .then(json => this.setState({
+        postes: json,
+        loading: false
+      }))
+  }
+
+  fetchPostesDetails(id) {
+    this.setState({loading: true})
+    fetch(`http://localhost:4000/api/postes/${id}`)
+      .then(response => response.json())
+      .then(json => this.setState({
+        postesDetails: json,
+        loading: false
+      }))
+      .catch(error => console.log(error))
+  }
+
+  renderTable() {
+    if(this.state.postesDetails.length !== 0 ) {
+      return(
+        <Fade in>
+          <div>
+            <Paper>
+                  <Table className={this.props.classes.table}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Item</TableCell>
+                        <TableCell align="right">Operator</TableCell>
+                        <TableCell align="right">Status</TableCell>
+                        <TableCell align="right">Date</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {this.state.postesDetails.map(item => (
+                        <TableRow key={item.id}>
+                          <TableCell component="th" scope="row">
+                            {item.item}
+                          </TableCell>
+                          <TableCell align="right">{item.operator}</TableCell>
+                          <TableCell align="right">{item.status.checked.value}</TableCell>
+                          <TableCell align="right">{item.date}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+            </Paper>
+            <Chart postesCount={this.state.postesDetails.length} data={data(this.state.postesDetails.length)} />
+          </div>
+        </Fade>
+      )
+    }
   }
 
   render() {
-    const { classes, postes } = this.props;
+    const { classes } = this.props;
     const { loading } = this.state;
 
     if (loading) {
@@ -75,25 +135,19 @@ class Postes extends Component {
     }
 
     return (
-      <div className={classes.root}>
+      <div className={this.props.classes.root}>
         <List>
-          {_.map(postes, poste => (
-            <ListItem key={poste.id}>
+          {this.state.postes.map(poste => (
+            <ListItem key={poste.id} button>
               <ListItemText
-                inset
-                className={classes.text}
+                className={this.props.classes.text}
                 primary={poste.category}
+                onClick={ () => { this.fetchPostesDetails(poste.id)}}
               />
             </ListItem>
           ))}
         </List>
-        <Typography className={classes.todo}>
-          <em>
-            TODO pour aller plus loin :<br />
-            Comparaison du nombre de pièces traitées quotidiennement sur les X
-            derniers jours
-          </em>
-        </Typography>
+        { this.renderTable() }
       </div>
     );
   }
