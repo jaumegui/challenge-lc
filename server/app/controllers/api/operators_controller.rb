@@ -2,7 +2,8 @@ module Api
   class OperatorsController < ApplicationController
     def index
       sleep 1 # Simulate loading time
-      @operators = Operator.all
+      operators = Operator.all
+      render json: operators
     end
 
     def show 

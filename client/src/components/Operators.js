@@ -44,20 +44,25 @@ class Operators extends Component {
 
     this.state = {
       loading: false,
+      details: [],
       operators: []
     }
   }
 
   componentDidMount() {
-    this.fetchOperators()
+    fetch('http://localhost:4000/api/operators')
+      .then(response => response.json())
+      .then(json => this.setState({ operators: json }))
+      .catch(error => console.log(error))
+    this.setState({ loading: false });
   }
 
   givedetails(id) {
     this.setState({
-      loading: true,
+      loading: true
     })
-    fetch(`http://localhost:3000/api/operators/${id}`)
-      .then(response => response.json())
+    fetch(`http://localhost:4000/api/operators/${id}`)
+      .then(response => (response.json()))
       .then(json => this.setState({
         details: json,
         loading: false
@@ -65,12 +70,24 @@ class Operators extends Component {
       .catch(error => console.log(error))  
     }
 
-  fetchOperators() {
-    fetch('http://localhost:3000/api/operators')
-      .then(response => response.json())
-      .then(json => this.setState({ operators: json }))
-      .catch(error => console.log(error))
-    this.setState({ loading: false });
+  details() {
+    const { classes } = this.props;
+    const { details } = this.state;
+
+    if(details.length !== 0) {
+      return( 
+        <div className={classes.root}>
+          <h3>{details.items.length} Objet{} traités pour un score de {details.score} points</h3>
+          { details.items.map((object) => {
+            return (
+              <h4 key={object.id}>Produit: {object.name} / Poste: {object.poste}</h4>
+            )
+          })}
+        </div>
+      )
+    }{
+    return <h1 className={classes.root}>ne sert à rien</h1>
+  }
   }
 
   render() {
@@ -85,7 +102,6 @@ class Operators extends Component {
       );
     }
 
-    console.log(this.state)
     return (
       <div className={classes.root}>
         <List>
@@ -98,6 +114,7 @@ class Operators extends Component {
             </ListItem>
           ))}
         </List>
+        <div className={classes.todo}>{this.details()}</div>
         <Typography className={classes.todo}>
           <em>
             TODO :<br />
