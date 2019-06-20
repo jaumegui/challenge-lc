@@ -17,7 +17,6 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import _ from "lodash";
 import { fetchPostes } from "../actions/postesActions";
 
 
@@ -115,7 +114,12 @@ class Postes extends Component {
                     </TableBody>
                   </Table>
             </Paper>
-            <Chart postesCount={this.state.postesDetails.length} data={data(this.state.postesDetails.length)} />
+            <div style={{display: "flex", justifyContent: 'center'}}>
+              <Chart 
+                postesCount={this.state.postesDetails.length} 
+                data={data(this.state.postesDetails.length)} 
+              />
+              </div>
           </div>
         </Fade>
       )
