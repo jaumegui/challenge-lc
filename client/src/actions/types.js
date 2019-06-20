@@ -1,0 +1,4 @@
+export const FETCH_POSTES = "FETCH_POSTES";
+export const FETCH_OPERATORS = "FETCH_OPERATORS";
+
+export default { FETCH_POSTES, FETCH_OPERATORS };
