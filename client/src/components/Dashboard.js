@@ -5,7 +5,10 @@ import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { Typography, CircularProgress } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import { deepPurple } from '@material-ui/core/colors';
@@ -37,6 +40,10 @@ const styles = {
   },
   link: {
     textDecoration: 'none'
+  },
+  buttons: {
+    height: 10,
+    width: 10
   }
 }
 
@@ -76,6 +83,10 @@ class Dashboard extends Component {
       .catch(error => console.log(error))  
   }
 
+  confirmStatus() {
+    
+  }
+
   details() {
     const { classes } = this.props;
     const { details } = this.state;
@@ -105,13 +116,35 @@ class Dashboard extends Component {
               return (
                 <Grid item xs={3} key={object.id}>
                   <Card className={classes.card}>
-                    <CardContent>
-                      <Typography variant="h5" component="h2">
-                        {object.name}
-                      </Typography>
-                      <Typography className={classes.pos} color="textSecondary">
-                        {object.poste}
-                      </Typography>
+                    <CardContent style={styles.title}>
+                      <div>
+                        <Typography variant="h5" component="h2">
+                          {object.name}
+                        </Typography>
+                        <Typography className={classes.pos} color="textSecondary">
+                          {object.poste}
+                        </Typography>
+                      </div>
+                      <div>
+                        <Fab 
+                          color="primary" 
+                          aria-label="Add" 
+                          className={classes.fab} 
+                          size='small'
+                          onClick={() => { this.confirmStatus()}}
+                        >
+                          <AddIcon />
+                        </Fab>
+                        <Fab 
+                          color="secondary" 
+                          aria-label="Delete" 
+                          className={classes.fab} 
+                          size='small'
+                          onClick={() => { this.deletItem() }}
+                        >
+                          <DeleteIcon />
+                        </Fab>
+                      </div>
                     </CardContent>
                   </Card>
                 </Grid>

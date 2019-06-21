@@ -66,13 +66,6 @@ class Postes extends Component {
     this.fetchPostes()
   }
 
-  fetchStatus(id) {
-    fetch(`http://localhost:4000/api/postes/status/${id}`)
-      .then(response => response.json())
-      .then(json => this.setState({ status: json }))
-      .catch(error => console.log(error))
-  }
-
   fetchPostes() {
     fetch(`http://localhost:4000/api/postes`)
       .then(response => response.json())

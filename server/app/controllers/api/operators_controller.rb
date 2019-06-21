@@ -23,5 +23,10 @@ module Api
       response[:items] = items
       render json: response
     end
+
+    def destroy
+      operator_poste = OperatorsPoste.find_by_id(params[:id])
+      operator_poste.delete
+    end
   end
 end
