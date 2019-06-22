@@ -101,10 +101,20 @@ class Dashboard extends Component {
     })
   }
 
+  getScore() {
+    let score = 0
+    this.state.details.forEach((item) => {
+      if (item[`${item.poste}`]) {
+        score += 1
+      }
+    })
+    return score
+  }
+
   details() {
     const { classes } = this.props;
     const { details } = this.state;
-
+    let score = this.getScore()
     if(details.length !== 0) {
       return( 
         <div className={classes.root}>
@@ -121,9 +131,9 @@ class Dashboard extends Component {
               </Link>
               <Typography variant="h3" gutterBottom>{details.name}</Typography>
             </div>
-            <Avatar className={classes.purpleAvatar} size={"300"}>{details.length}</Avatar>
+            <Avatar className={classes.purpleAvatar} size={"300"}>{score}</Avatar>
           </div>
-          <Typography variant="h5" gutterBottom>{details.length} Objet{ details.length === 0 ? "" : "s" } traité{ details.length === 0 ? "" : "s" } pour un score de {details.score} point{ details.length === 0 ? "" : "s" }</Typography>
+          <Typography variant="h5" gutterBottom>{score} Objet{ score === 0 ? "" : "s" } traité{ score === 0 ? "" : "s" } pour un score de {score} point{ score === 0 ? "" : "s" }</Typography>
           { this.specialForJack() }
           <Grid container spacing={16} style={styles.grid}>
             { details.map((object) => {
