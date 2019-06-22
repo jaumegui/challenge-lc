@@ -95,6 +95,7 @@ class Dashboard extends Component {
     let index = oldItems.indexOf(item)
     oldItems.splice(index,1)
     oldItems.splice(index, 0, item)
+    fetch(`http://localhost:4000/api/items/${poste}/${item_id}`)
     this.setState({
       details: oldItems
     })
@@ -174,6 +175,9 @@ class Dashboard extends Component {
       );
   }
 
+  componentWillUnmout() {
+    fetch()
+  }
 
   render() {
     return (
