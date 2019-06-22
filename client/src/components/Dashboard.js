@@ -71,7 +71,7 @@ class Dashboard extends Component {
     }
   }
   
-  givedetails(id) {
+  givedetails() {
     this.setState({
       loading: true
     })
@@ -84,8 +84,14 @@ class Dashboard extends Component {
       .catch(error => console.log(error))  
   }
 
-  deletItem(e) {
-    console.log(e)
+  deleteItem(id){
+    let opURL = this.props.location.pathname
+    let op = opURL.substr(opURL.length - 1)
+    console.log(op)
+    fetch(`http://localhost:4000/api/operators/poste/${id}`, {
+      method: 'delete'
+    })
+    this.givedetails(op)
   }
 
   trigerStatus(idop, item_id, poste) {
@@ -133,7 +139,7 @@ class Dashboard extends Component {
             </div>
             <Avatar className={classes.purpleAvatar} size={"300"}>{score}</Avatar>
           </div>
-          <Typography variant="h5" gutterBottom>{score} Objet{ score === 0 ? "" : "s" } traité{ score === 0 ? "" : "s" } pour un score de {score} point{ score === 0 ? "" : "s" }</Typography>
+          <Typography variant="h5" gutterBottom>{score} Objet{ score <= 1 ? "" : "s" } traité{ score <= 1 ? "" : "s" } pour un score de {score} point{ score <= 1 ? "" : "s" }</Typography>
           { this.specialForJack() }
           <Grid container spacing={16} style={styles.grid}>
             { details.map((object) => {
@@ -164,7 +170,7 @@ class Dashboard extends Component {
                           aria-label="Delete" 
                           className={classes.fab} 
                           size='small'
-                          onClick={(e) => { this.deletItem(e) }}
+                          onClick={() => { this.deleteItem(object.id) }}
                         >
                           <DeleteIcon />
                         </Fab>
