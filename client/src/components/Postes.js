@@ -57,7 +57,7 @@ class Postes extends Component {
     super(props);
 
     this.state = {
-      loading: false,
+      loading: true,
       postes: [],
       postesDetails: [],
       status: []

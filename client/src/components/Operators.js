@@ -67,12 +67,10 @@ class Operators extends Component {
   }
 
   componentDidMount() {
-    this.setState({ loading: true })
     fetch('http://localhost:4000/api/operators')
       .then(response => response.json())
-      .then(json => this.setState({ operators: json }))
+      .then(json => this.setState({ operators: json, loading: false }))
       .catch(error => console.log(error))
-    this.setState({ loading: false });
   }
 
   render() {

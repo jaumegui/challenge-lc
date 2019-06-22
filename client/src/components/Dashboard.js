@@ -54,7 +54,7 @@ class Dashboard extends Component {
     super(props);
 
     this.state = {
-      loading: false,
+      loading: true,
       details: [],
     }
   }
@@ -72,22 +72,21 @@ class Dashboard extends Component {
   }
   
   givedetails() {
-    this.setState({
-      loading: true
-    })
-    fetch(`http://localhost:4000/api/operators/${this.props.match.params.id}`)
-      .then(response => (response.json()))
-      .then(json => this.setState({
-        details: json,
-        loading: false
-      }))
-      .catch(error => console.log(error))  
+    const doIt = () => {
+      fetch(`http://localhost:4000/api/operators/${this.props.match.params.id}`)
+        .then(response => (response.json()))
+        .then(json => this.setState({
+          details: json,
+          loading: false
+        }))
+        .catch(error => console.log(error))  
+    }
+    this.setState({ loading: true }, doIt())
   }
 
   deleteItem(id){
     let opURL = this.props.location.pathname
     let op = opURL.substr(opURL.length - 1)
-    console.log(op)
     fetch(`http://localhost:4000/api/operators/poste/${id}`, {
       method: 'delete'
     })
@@ -117,90 +116,80 @@ class Dashboard extends Component {
     return score
   }
 
-  details() {
+  render() {
     const { classes } = this.props;
-    const { details } = this.state;
+    const { details, loading } = this.state;
     let score = this.getScore()
-    if(details.length !== 0) {
-      return( 
-        <div className={classes.root}>
-          <div style={styles.title}>
-            <div style={styles.title}>
-              <Link to={'/operators'} style={styles.link}>
-                <Button 
-                  variant="outlined" 
-                  color="default" 
-                  className={classes.button} 
-                  style={{marginRight: "20px"}}>
-                    Retour
-                </Button>
-              </Link>
-              <Typography variant="h3" gutterBottom>{details.name}</Typography>
-            </div>
-            <Avatar className={classes.purpleAvatar} size={"300"}>{score}</Avatar>
-          </div>
-          <Typography variant="h5" gutterBottom>{score} Objet{ score <= 1 ? "" : "s" } traité{ score <= 1 ? "" : "s" } pour un score de {score} point{ score <= 1 ? "" : "s" }</Typography>
-          { this.specialForJack() }
-          <Grid container spacing={16} style={styles.grid}>
-            { details.map((object) => {
-              return (
-                <Grid item xs={3} key={object.id}>
-                  <Card className={classes.card}>
-                    <CardContent style={styles.title}>
-                      <div>
-                        <Typography variant="h5" component="h2">
-                          {object.name}
-                        </Typography>
-                        <Typography className={classes.pos} color="textSecondary">
-                          {object.poste}
-                        </Typography>
-                        <Typography className={classes.pos} color="textSecondary">
 
-                        </Typography>
-                      </div>
-                      <div>
-                        <Switch
-                          checked={object[object.poste]}
-                          onChange={() => { this.trigerStatus(object.id, object.item_id, object.poste)}}
-                          value="checkedA"
-                          inputProps={{ 'aria-label': 'secondary checkbox' }}
-                        />
-                        <Fab 
-                          color="secondary" 
-                          aria-label="Delete" 
-                          className={classes.fab} 
-                          size='small'
-                          onClick={() => { this.deleteItem(object.id) }}
-                        >
-                          <DeleteIcon />
-                        </Fab>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              )
-            })}
-
-          </Grid>
-        </div>
-      )
-    } return (
+    if (loading) {
+      return (
         <div className={classes.progress}>
-          <CircularProgress size={128}/>
+          <CircularProgress size={128} />
         </div>
       );
-  }
+    }
+      
+    return( 
+      <div className={classes.root}>
+        <div style={styles.title}>
+          <div style={styles.title}>
+            <Link to={'/operators'} style={styles.link}>
+              <Button 
+                variant="outlined" 
+                color="default" 
+                className={classes.button} 
+                style={{marginRight: "20px"}}>
+                  Retour
+              </Button>
+            </Link>
+            <Typography variant="h3" gutterBottom>{details.name}</Typography>
+          </div>
+          <Avatar className={classes.purpleAvatar} size={"300"}>{score}</Avatar>
+        </div>
+        <Typography variant="h5" gutterBottom>{score} Objet{ score <= 1 ? "" : "s" } traité{ score <= 1 ? "" : "s" } pour un score de {score} point{ score <= 1 ? "" : "s" }</Typography>
+        { this.specialForJack() }
+        <Grid container spacing={16} style={styles.grid}>
+          { details.map((object) => {
+            return (
+              <Grid item xs={3} key={object.id}>
+                <Card className={classes.card}>
+                  <CardContent style={styles.title}>
+                    <div>
+                      <Typography variant="h5" component="h2">
+                        {object.name}
+                      </Typography>
+                      <Typography className={classes.pos} color="textSecondary">
+                        {object.poste}
+                      </Typography>
+                      <Typography className={classes.pos} color="textSecondary">
 
-  componentWillUnmout() {
-    fetch()
-  }
-
-  render() {
-    return (
-      <div>
-        { this.details() }
+                      </Typography>
+                    </div>
+                    <div>
+                      <Switch
+                        checked={object[object.poste]}
+                        onChange={() => { this.trigerStatus(object.id, object.item_id, object.poste)}}
+                        value="checkedA"
+                        inputProps={{ 'aria-label': 'secondary checkbox' }}
+                      />
+                      <Fab 
+                        color="secondary" 
+                        aria-label="Delete" 
+                        className={classes.fab} 
+                        size='small'
+                        onClick={() => { this.deleteItem(object.id) }}
+                      >
+                        <DeleteIcon />
+                      </Fab>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Grid>
+            )
+          })}
+        </Grid>
       </div>
-    );
+    ) 
   }
 }
 
