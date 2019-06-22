@@ -4,9 +4,9 @@ Rails.application.routes.draw do
     resources :operators, only: %i(index show destroy)
     resources :items, only: %i(index show destroy) do
         collection do 
-          get '/pack/:id', to: 'items#pack'
-          get '/pick/:id', to: 'items#pick'
-          get '/check/:id', to: 'items#check'
+          get '/packup/:id', to: 'items#packup'
+          get '/pickup/:id', to: 'items#pickup'
+          get '/checkup/:id', to: 'items#checkup'
       end
     end
     resources :postes, only: %i(index show) do 

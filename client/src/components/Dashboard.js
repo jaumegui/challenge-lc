@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { compose } from "redux";
 import { Link } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid';
+import Switch from '@material-ui/core/Switch';
 import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -83,8 +84,20 @@ class Dashboard extends Component {
       .catch(error => console.log(error))  
   }
 
-  confirmStatus() {
-    
+  deletItem(e) {
+    console.log(e)
+  }
+
+  trigerStatus(idop, item_id, poste) {
+    let oldItems = this.state.details
+    let item = oldItems.find(item => item.id === idop )
+    item[`${poste}`] = !item[`${poste}`]
+    let index = oldItems.indexOf(item)
+    oldItems.splice(index,1)
+    oldItems.splice(index, 0, item)
+    this.setState({
+      details: oldItems
+    })
   }
 
   details() {
@@ -107,12 +120,12 @@ class Dashboard extends Component {
               </Link>
               <Typography variant="h3" gutterBottom>{details.name}</Typography>
             </div>
-            <Avatar className={classes.purpleAvatar} size={"300"}>{details.score}</Avatar>
+            <Avatar className={classes.purpleAvatar} size={"300"}>{details.length}</Avatar>
           </div>
-          <Typography variant="h5" gutterBottom>{details.items.length} Objet{ details.items.length === 0 ? "" : "s" } traité{ details.items.length === 0 ? "" : "s" } pour un score de {details.score} point{ details.items.length === 0 ? "" : "s" }</Typography>
+          <Typography variant="h5" gutterBottom>{details.length} Objet{ details.length === 0 ? "" : "s" } traité{ details.length === 0 ? "" : "s" } pour un score de {details.score} point{ details.length === 0 ? "" : "s" }</Typography>
           { this.specialForJack() }
           <Grid container spacing={16} style={styles.grid}>
-            { details.items.map((object) => {
+            { details.map((object) => {
               return (
                 <Grid item xs={3} key={object.id}>
                   <Card className={classes.card}>
@@ -124,23 +137,23 @@ class Dashboard extends Component {
                         <Typography className={classes.pos} color="textSecondary">
                           {object.poste}
                         </Typography>
+                        <Typography className={classes.pos} color="textSecondary">
+
+                        </Typography>
                       </div>
                       <div>
-                        <Fab 
-                          color="primary" 
-                          aria-label="Add" 
-                          className={classes.fab} 
-                          size='small'
-                          onClick={() => { this.confirmStatus()}}
-                        >
-                          <AddIcon />
-                        </Fab>
+                        <Switch
+                          checked={object[object.poste]}
+                          onChange={() => { this.trigerStatus(object.id, object.item_id, object.poste)}}
+                          value="checkedA"
+                          inputProps={{ 'aria-label': 'secondary checkbox' }}
+                        />
                         <Fab 
                           color="secondary" 
                           aria-label="Delete" 
                           className={classes.fab} 
                           size='small'
-                          onClick={() => { this.deletItem() }}
+                          onClick={(e) => { this.deletItem(e) }}
                         >
                           <DeleteIcon />
                         </Fab>

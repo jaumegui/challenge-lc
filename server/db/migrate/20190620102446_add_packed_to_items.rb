@@ -1,5 +1,5 @@
-class AddPackedToItems < ActiveRecord::Migration[5.2]
+class AddPackupToItems < ActiveRecord::Migration[5.2]
   def change
-    add_column :items, :packed, :boolean, default: false
+    add_column :items, :packup, :boolean, default: false
   end
 end

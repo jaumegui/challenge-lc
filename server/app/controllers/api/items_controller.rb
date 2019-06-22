@@ -15,23 +15,23 @@ class Api::ItemsController < ApplicationController
     index
   end
 
-  def check
+  def checkup
     item = Item.find_by_id(params[:id])
-    item.checked = true
+    item.checkup = !item.checkup
     item.save
     render json: item
   end
 
-  def pack
+  def packup
     item = Item.find_by_id(params[:id])
-    item.packed = true
+    item.packup = !item.packup
     item.save
     render json: item
   end
 
-  def pick
+  def pickup
     item = Item.find_by_id(params[:id])
-    item.picked = true
+    item.pickup = !item.pickup
     item.save
     render json: item
   end
