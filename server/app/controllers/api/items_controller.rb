@@ -4,6 +4,10 @@ class Api::ItemsController < ApplicationController
     render json: items
   end
 
+  def create
+    raise
+  end
+
   def show
     item = Item.find_by_id(params[:id])
     render json: item
@@ -33,5 +37,11 @@ class Api::ItemsController < ApplicationController
     item.pickup = !item.pickup
     item.save
     render json: item
+  end
+
+  private
+
+  def items_params
+    params.require(:item).permit(:product)
   end
 end

@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { compose } from "redux";
 import { Link } from 'react-router-dom'
 import Grid from '@material-ui/core/Grid';
+import Select2 from './Select.js';
 import Switch from '@material-ui/core/Switch';
 import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -188,6 +188,10 @@ class Dashboard extends Component {
             )
           })}
         </Grid>
+        <Select2 
+          postes={[{id: 1, name: "pickup"},{ id: 2, name: "chekup"}, { id: 3, name: "packup"}]} 
+          operator={this.props.match.params.id}
+        />
       </div>
     ) 
   }

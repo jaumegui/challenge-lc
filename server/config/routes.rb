@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :api, constraints: { format: :json }, defaults: { format: :json } do
+    resources :products, only: %i(index)
     resources :operators, only: %i(index show) do
       collection do 
         delete '/poste/:id', to: 'operators#destroy'
@@ -11,6 +12,8 @@ Rails.application.routes.draw do
           get '/packup/:id', to: 'items#packup'
           get '/pickup/:id', to: 'items#pickup'
           get '/checkup/:id', to: 'items#checkup'
+
+          post '/:id', to: 'items#create'
       end
     end
     resources :postes, only: %i(index show) do 
