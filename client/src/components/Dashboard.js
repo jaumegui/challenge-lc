@@ -37,7 +37,7 @@ const styles = {
     justifyContent: "space-between"
   },
   grid: {
-    justifyContent: "space-between"
+    justifyContent: "end"
   },
   link: {
     textDecoration: 'none'
@@ -58,7 +58,10 @@ class Dashboard extends Component {
       loading: true,
       details: [],
     }
-    this.givedetails = this.givedetails.bind(this);
+    this.givedetails = this.givedetails.bind(this)
+  }
+
+  componentDidMount() {
     this.givedetails()
   }
 
@@ -149,9 +152,8 @@ class Dashboard extends Component {
         { this.specialForJack() }
         <Grid container spacing={16} style={styles.grid}>
           { details.map((object) => {
-            console.log(details)
             return (
-              <Grid item xs={3} key={object.id}>
+              <Grid item key={object.id}>
                 <Card className={classes.card}>
                   <CardContent style={styles.title}>
                     <div>
@@ -168,7 +170,7 @@ class Dashboard extends Component {
                     <div>
                       <Switch
                         checked={object[object.poste]}
-                        onChange={() => { this.trigerStatus(object.id, object.item_id, object.poste)}}
+                        onChange={() => { this.trigerStatus(object.id, object.product_id, object.poste)}}
                         value="checkedA"
                         inputProps={{ 'aria-label': 'secondary checkbox' }}
                       />
@@ -188,7 +190,7 @@ class Dashboard extends Component {
             )
           })}
         </Grid>
-        <Select2 
+        <Select2 key="1"
           postes={[{id: 1, name: "pickup"},{ id: 2, name: "checkup"},{ id: 3, name: "packup" }]} 
           operator={this.props.match.params.id}
           action={this.givedetails}

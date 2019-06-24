@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { compose } from "redux";
-import { withStyles } from "@material-ui/core/styles";
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import Fab from '@material-ui/core/Fab';
@@ -36,7 +34,7 @@ export default class Select2 extends Component {
 
   setItemName(e) {
     let item = e.target.value
-    let product_id = this.state.products.find(obj => obj.name == item).id
+    let product_id = this.state.products.find(obj => obj.name === item).id
     this.setState(prevState => ({ product: { ...prevState.product, item_id: product_id}, selectedProduct: item }))
   }
 
@@ -54,16 +52,13 @@ export default class Select2 extends Component {
 
   fetchPosteApi() {
     this.handleClose()
-    console.log(this.state.product)
     fetch(`http://localhost:4000/api/items/${this.props.operator}/${this.state.product.item_id}/${this.state.product.poste_id}`, {
       method: 'post',
     })
       .then(response => (response.json()))
-      .then(json => console.log(json))
       .catch(error => console.log(error))
     this.props.action()
   }
-
 
   handleClickOpen() {
     this.setState({ open: true });
@@ -97,8 +92,8 @@ export default class Select2 extends Component {
     return (
       <div>
         <div style={{ position: "absolute", bottom: '30px', right: '30px'}}>
-          <Fab color="primary" aria-label="Add" className={styles.fab} onClick={ () => { this.handleClickOpen() }}>
-            <AddIcon className={styles.fab}/>
+          <Fab color="primary" aria-label="Add" style={styles.fab} onClick={ () => { this.handleClickOpen() }}>
+            <AddIcon/>
           </Fab>
         </div>
         <Dialog 
@@ -106,11 +101,11 @@ export default class Select2 extends Component {
           open={this.state.open} 
           onClose={ () => {this.handleClose() }}
           maxWidth={'xs'}
-          fullWidth={'true'}
+          fullWidth={true}
           style={{display: "flex", maxHeight: "calc(100% - 96px)", flexDirection: "column"}}
         >
           <DialogTitle>Create an Item</DialogTitle>
-          <DialogContent className={styles.dialogContent}>
+          <DialogContent style={styles.dialogContent}>
             <form style={ { display: 'flex', flexWrap: 'wrap'}}>
               <FormControl style={styles.formControl}>
                 <InputLabel htmlFor="product">Product</InputLabel>
@@ -121,7 +116,7 @@ export default class Select2 extends Component {
                 >
                 { this.state.products.map((product) => {
                     return(
-                      <MenuItem value={product.name}>{product.name}</MenuItem>
+                      <MenuItem key={product.id} value={product.name}>{product.name}</MenuItem>
                     )
                 })}
                 </Select>
