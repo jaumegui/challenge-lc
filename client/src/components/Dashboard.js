@@ -6,6 +6,9 @@ import Select2 from './Select.js';
 import Switch from '@material-ui/core/Switch';
 import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
+import Search from '@material-ui/icons/Search'
+import Send from '@material-ui/icons/Send'
+import Work from '@material-ui/icons/Work'
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
@@ -108,6 +111,16 @@ class Dashboard extends Component {
     })
   }
 
+  addIcon(poste) {
+    if(poste === "checkup") {
+      return ( <Search style={{ fontSize: 40 }}/> )
+    } if(poste === "packup") {
+      return ( <Work style={{ fontSize: 40 }}/> )
+    } if(poste === "pickup") {
+      return ( <Send style={{ fontSize: 40 }}/> )
+    }
+  }
+
   getScore() {
     let score = 0
     this.state.details.forEach((item) => {
@@ -160,14 +173,11 @@ class Dashboard extends Component {
                       <Typography variant="h5" component="h2">
                         {object.name}
                       </Typography>
-                      <Typography className={classes.pos} color="textSecondary">
-                        {object.poste}
-                      </Typography>
-                      <Typography className={classes.pos} color="textSecondary">
-
+                      <Typography  style={{ position: 'relative', top: 16, left: 86 }} color="textSecondary">
+                          { this.addIcon(object.poste) }
                       </Typography>
                     </div>
-                    <div>
+                    <div style={{ position: "relative", top: 30}}>
                       <Switch
                         checked={object[object.poste]}
                         onChange={() => { this.trigerStatus(object.id, object.product_id, object.poste)}}
