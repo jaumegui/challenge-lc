@@ -5,7 +5,8 @@ class Api::ItemsController < ApplicationController
   end
 
   def create
-    raise
+    op = OperatorsPoste.create(item_id: params[:item_id], poste_id: params[:poste_id], operator_id: params[:id])
+    render json: op
   end
 
   def show
@@ -37,11 +38,5 @@ class Api::ItemsController < ApplicationController
     item.pickup = !item.pickup
     item.save
     render json: item
-  end
-
-  private
-
-  def items_params
-    params.require(:item).permit(:product)
   end
 end

@@ -36,34 +36,26 @@ export default class Select2 extends Component {
 
   setItemName(e) {
     let item = e.target.value
-    console.log(item)
     let product_id = this.state.products.find(obj => obj.name == item).id
     this.setState(prevState => ({ product: { ...prevState.product, item_id: product_id}, selectedProduct: item }))
   }
 
+
   setItemPoste(e) {
-    let poste = e.target.value
-    this.setState(prevState => ({ 
-      product: { ...prevState.product, 
-        poste: poste.id
-      }, selectedPoste: poste}))
+    let poste_name = e.target.value
+    let poste_id = this.props.postes.find(obj => obj.name == poste_name)
+    this.setState({ selectedPoste: poste_name })
+    this.setPosteState(poste_id)
   }
 
-  createItem() {
-    console.log(this.state.product)
-    let poste_id = this.props.postes.find(obj => obj.name == this.state.product.poste).id
-    this.setState(prevState => ({ product: { ...prevState.product, poste_id: poste_id}}))
-    this.fetchPosteApi()
+  setPosteState(poste_id) {
+    this.setState(prevState => ({ product: { ...prevState.product, poste_id: poste_id['id'] }}))
   }
 
   fetchPosteApi() {
-    console.log(this.state.product)
-    fetch(`http://localhost:4000/items`, {
-      method: 'POST', 
-      headers: {
-        'Content-Type:': 'application/json'
-      },
-      body: JSON.stringify(this.state.product)
+    this.handleClose()
+    fetch(`http://localhost:4000/api/items/${this.props.operator}/${this.state.product.item_id}/${this.state.product.poste_id}`, {
+      method: 'post',
     })
       .then(response => (response.json()))
       .then(json => console.log(json))
@@ -76,7 +68,7 @@ export default class Select2 extends Component {
   }
 
   handleClose() {
-    this.setState({ open: false, product: {} });
+    this.setState({ open: false});
   }
 
   render() {
@@ -150,7 +142,7 @@ export default class Select2 extends Component {
             <Button onClick={() => {this.handleClose()}} color="primary">
               Cancel
             </Button>
-            <Button onClick={(product, poste) => {this.createItem(product, poste)}} color="primary">
+            <Button onClick={() => {this.fetchPosteApi()}} color="primary">
               Ok
             </Button>
           </DialogActions>
