@@ -114,9 +114,9 @@ class Dashboard extends Component {
   addIcon(poste) {
     if(poste === "checkup") {
       return ( <Search style={{ fontSize: 40 }}/> )
-    } if(poste === "packup") {
-      return ( <Work style={{ fontSize: 40 }}/> )
     } if(poste === "pickup") {
+      return ( <Work style={{ fontSize: 40 }}/> )
+    } if(poste === "packup") {
       return ( <Send style={{ fontSize: 40 }}/> )
     }
   }
