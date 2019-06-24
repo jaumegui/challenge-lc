@@ -63,7 +63,7 @@ class Dashboard extends Component {
   }
 
   specialForJack() {
-    if(this.state.details.name == "Jack Jefferson") {
+    if(this.props.match.params.id === 3) {
       return (
         <Typography variant="h5" gutterBottom>T'es mauvais Jack!</Typography>
       )
@@ -149,7 +149,7 @@ class Dashboard extends Component {
         { this.specialForJack() }
         <Grid container spacing={16} style={styles.grid}>
           { details.map((object) => {
-            console.log(object)
+            console.log(details)
             return (
               <Grid item xs={3} key={object.id}>
                 <Card className={classes.card}>

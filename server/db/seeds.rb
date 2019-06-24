@@ -29,11 +29,3 @@ Item.create!([
   { product_id: 4 },
 ])
 
-OperatorsPoste.create!([
-  { operator_id: 1, poste_id: 1, item_id: 1},
-  { operator_id: 1, poste_id: 2, item_id: 1},
-  { operator_id: 1, poste_id: 3, item_id: 1},
-  { operator_id: 2, poste_id: 2, item_id: 2},
-  { operator_id: 2, poste_id: 2, item_id: 3},
-  { operator_id: 2, poste_id: 3, item_id: 2}
-])

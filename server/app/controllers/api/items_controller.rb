@@ -6,6 +6,7 @@ class Api::ItemsController < ApplicationController
 
   def create
     op = OperatorsPoste.create(item_id: params[:item_id], poste_id: params[:poste_id], operator_id: params[:id])
+    p op
     render json: op
   end
 

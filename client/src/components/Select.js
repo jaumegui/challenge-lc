@@ -36,7 +36,6 @@ export default class Select2 extends Component {
 
   setItemName(e) {
     let item = e.target.value
-    console.log(item)
     let product_id = this.state.products.find(obj => obj.name == item).id
     this.setState(prevState => ({ product: { ...prevState.product, item_id: product_id}, selectedProduct: item }))
   }
@@ -55,6 +54,7 @@ export default class Select2 extends Component {
 
   fetchPosteApi() {
     this.handleClose()
+    console.log(this.state.product)
     fetch(`http://localhost:4000/api/items/${this.props.operator}/${this.state.product.item_id}/${this.state.product.poste_id}`, {
       method: 'post',
     })

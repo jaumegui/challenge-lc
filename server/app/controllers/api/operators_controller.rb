@@ -13,8 +13,8 @@ class Api::OperatorsController < ApplicationController
     operator_postes.each do |object|
       items.push({
         id: object.id,
-        item_id: object.item_id, 
-        name: Item.find_by_id(object.item_id).product.name,
+        product_id: object.item_id, 
+        name: Product.find_by_id(object.item_id).name,
         poste: Poste.find_by_id(object.poste_id).category,
         status: Item.all.select("#{Poste.find_by_id(object.poste_id).category}").where("id = #{object.item_id}")
       })
@@ -22,6 +22,7 @@ class Api::OperatorsController < ApplicationController
 
     items.each do |item|
       key = item[:poste]
+      p key
       item[key] = item[:status][0][key.to_sym]
       item.delete(:status)
     end
