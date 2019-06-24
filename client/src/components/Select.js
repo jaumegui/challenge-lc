@@ -43,7 +43,7 @@ export default class Select2 extends Component {
 
   setItemPoste(e) {
     let poste_name = e.target.value
-    let poste_id = this.props.postes.find(obj => obj.name == poste_name)
+    let poste_id = this.props.postes.find(obj => obj.name === poste_name)
     this.setState({ selectedPoste: poste_name })
     this.setPosteState(poste_id)
   }
@@ -60,6 +60,7 @@ export default class Select2 extends Component {
       .then(response => (response.json()))
       .then(json => console.log(json))
       .catch(error => console.log(error))
+    this.props.action()
   }
 
 

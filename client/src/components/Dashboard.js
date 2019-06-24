@@ -53,13 +53,12 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
 
+
     this.state = {
       loading: true,
       details: [],
     }
-  }
-  
-  componentDidMount() {
+    this.givedetails = this.givedetails.bind(this);
     this.givedetails()
   }
 
@@ -189,8 +188,9 @@ class Dashboard extends Component {
           })}
         </Grid>
         <Select2 
-          postes={[{id: 1, name: "pickup"},{ id: 2, name: "chekup"}, { id: 3, name: "packup"}]} 
+          postes={[{id: 1, name: "pickup"},{ id: 2, name: "checkup"},{ id: 3, name: "packup" }]} 
           operator={this.props.match.params.id}
+          action={this.givedetails}
         />
       </div>
     ) 
