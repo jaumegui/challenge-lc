@@ -149,6 +149,7 @@ class Dashboard extends Component {
         { this.specialForJack() }
         <Grid container spacing={16} style={styles.grid}>
           { details.map((object) => {
+            console.log(object)
             return (
               <Grid item xs={3} key={object.id}>
                 <Card className={classes.card}>

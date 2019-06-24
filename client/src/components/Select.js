@@ -36,6 +36,7 @@ export default class Select2 extends Component {
 
   setItemName(e) {
     let item = e.target.value
+    console.log(item)
     let product_id = this.state.products.find(obj => obj.name == item).id
     this.setState(prevState => ({ product: { ...prevState.product, item_id: product_id}, selectedProduct: item }))
   }
